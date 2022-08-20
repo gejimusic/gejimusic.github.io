@@ -59,7 +59,7 @@
 		<!-- 评论 -->
 		<div>
 			<h3 v-if="isSearched">-------------------------------------</h3>
-			<h3 v-if="isSearched">评论：</h3>
+			<h3 v-if="isSearched">热评：</h3>
 			<input type="button" value="收起/展开" @click="DisplayHotComments" v-if="isPlaying">
 			<h3 v-for="item in hotComments" v-show="isHotComments">
 				{{ item.user.nickname }} ： {{ item.content }}
