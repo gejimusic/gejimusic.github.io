@@ -22,15 +22,21 @@
 				关于歌姬云音乐
 			</a></h2>
 
+
+
+
 		<!-- 搜索 -->
 		<div>
 			<input type="text" id="kwInput" v-model="kw" @keyup.enter="search"><input type="button" value="搜索"
 				@click="search">
-			<h3>搜索状态：{{ searchReturned }}</h3>
+
 		</div>
 
-		<!-- 分界线 -->
-		<h2>-------------------------------</h2>
+		<div v-if="isSearched">
+			<h3>搜索状态：{{ searchReturned }}</h3>
+			<!-- 分界线 -->
+			<h2>-------------------------------</h2>
+		</div>
 
 		<!-- 播放器 -->
 		<div v-show="isPlaying">
@@ -39,7 +45,7 @@
 		</div>
 
 		<!-- 播放MV -->
-		<div>
+		<div v-show="isMvPlaying">
 			<h2>{{ mvMsg }}</h2>
 			<div>
 				<video :src="mvUrl" v-show="mvGot" autoplay controls autoplay loop></video>
@@ -60,11 +66,11 @@
 		</div>
 
 		<!-- 评论 -->
-		<div>
-			<h3 v-if="isSearched">-------------------------------------</h3>
-			<h3 v-if="isSearched">热评：</h3>
-			<input type="button" value="收起/展开" @click="DisplayHotComments" v-if="isPlaying">
-			<h3 v-for="item in hotComments" v-show="isHotComments">
+		<div v-show="isHotComments">
+			<h3>-------------------------------------</h3>
+			<h3>热评：</h3>
+			<input type="button" value="收起/展开" @click="DisplayHotComments">
+			<h3 v-for="item in hotComments" v-show="!isHideHotComments">
 				{{ item.user.nickname }} ： {{ item.content }}
 				<br>
 				点赞数：{{ item.likedCount }}

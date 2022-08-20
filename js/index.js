@@ -12,10 +12,12 @@ var app = new Vue({
       isSearched: false,
       songs_list: [],
       isPlaying: false,
+      isMvPlaying:false,
       song_src: "",
       isPlaySongsInfo: true,
       hotComments: [],
-      isHotComments: true,
+      isHotComments: false,
+      isHideHotComments:false,
       mvGot:false,
       mvMsg:"",
       mvUrl:""
@@ -42,8 +44,6 @@ var app = new Vue({
           that.songs_list = resp.data.result.songs;
           that.isSearched = true;
           that.isPlaySongsInfo = true;
-          that.hotComments = [];
-          that.isHotComments = false;
         }, err => {
 
         })
@@ -69,6 +69,7 @@ var app = new Vue({
           that.mvMsg = "";
           that.mvUrl = "";
 
+          document.getElementsByTagName('video')[0].pause();
           document.getElementsByTagName('audio')[0].volume = 0.5;
 
         })
@@ -89,8 +90,11 @@ var app = new Vue({
         that.mvUrl = resp.data.data.url;
         that.mvGot = true;
         that.isHotComments = true;
-        that.isPlaying = true;
+        that.isPlaying = false;
+        that.isMvPlaying = true;
         this.comment(id);
+
+        document.getElementsByTagName("audio")[0].pause();
         document.getElementsByTagName('video')[0].volume = 0.45;
       }, err=>{})
     },
@@ -100,7 +104,7 @@ var app = new Vue({
     },
 
     DisplayHotComments() {
-      this.isHotComments = !this.isHotComments
+      this.isHideHotComments = !this.isHideHotComments
     },
 
     comment(id) {
