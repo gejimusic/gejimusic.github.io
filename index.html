@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>歌姬云音乐</title>
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.js"></script>
+	<link rel="shortcut icon" href="https://www.baidu.com/img/baidu_85beaf5496f291521eb75ba38eacbd87.svg"
+		type="image/x-icon">
+</head>
+
+<body>
+	<div id="app">
+		<h2>
+			歌姬云音乐
+		</h2>
+
+		<!-- 搜索 -->
+		<div>
+			<input type="text" id="kwInput" v-model="kw" @keyup.enter="search"><input type="button" value="搜索"
+				@click="search">
+			<h3>搜索状态：{{ searchReturned }}</h3>
+		</div>
+
+		<!-- 分界线 -->
+		<h2>-------------------------------</h2>
+
+		<!-- 播放器 -->
+		<div v-show="isPlaying">
+			<audio ref='audio' :src="song_src" controls autoplay loop></audio>
+			<h2>-------------------------------</h2>
+		</div>
+
+		<!-- 播放MV -->
+		<div>
+			<h2>{{ mvMsg }}</h2>
+			<div>
+				<video :src="mvUrl" v-show="mvGot" autoplay controls autoplay loop></video>
+			</div>
+		</div>
+
+		<!-- 歌曲 -->
+		<div>
+			<!-- 分界线 -->
+			<h2 v-if="mvGot">-------------------------------</h2>
+			<h3 v-if="isSearched">歌曲：</h3>
+			<input type="button" value="收起/展开" @click="playSongsInfo" v-if="isSearched">
+			<h3 v-for="item in songs_list" v-show="isPlaySongsInfo">
+				<input type="button" value="播放" @click="play(item.id)">
+				<input type="button" value="播放MV" @click="playMV(item.mvid,item.id)" v-if="item.mvid">
+				<i>{{ item.name }} - {{ item.artists[0].name }}</i>
+			</h3>
+		</div>
+
+		<!-- 评论 -->
+		<div>
+			<h3 v-if="isSearched">-------------------------------------</h3>
+			<h3 v-if="isSearched">评论：</h3>
+			<input type="button" value="收起/展开" @click="DisplayHotComments" v-if="isPlaying">
+			<h3 v-for="item in hotComments" v-show="isHotComments">
+				{{ item.user.nickname }} ： {{ item.content }}
+				<br>
+				点赞数：{{ item.likedCount }}
+				<br>
+				发布时间： {{ item.timeStr }}
+			</h3>
+			<h3 v-if="isPlaying">-------------------------------------</h3>
+		</div>
+
+	</div>
+
+	<script src="./js/index.js"></script>
+</body>
+
+</html>
