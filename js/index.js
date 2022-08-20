@@ -114,6 +114,7 @@ var app = new Vue({
         that.mvUrl = resp.data.data.url;
         that.mvGot = true;
         that.isHotComments = true;
+        that.isPlaying = true;
         this.comment(id);
         document.getElementsByTagName('video')[0].volume = 0.45;
       }, err=>{})
